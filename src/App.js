@@ -8,7 +8,8 @@ import Products from './components/Products';
 import ShoppingCart from './components/ShoppingCart';
 
 // * Context Imports
-import ProductContext from './context/ProductContext'
+import ProductContext from './context/ProductContext';
+import CartContext from './context/CartContext';
 
 function App() {
 	const [products] = useState(data);
@@ -23,22 +24,19 @@ function App() {
 
 	return (
 		<div className="App">
-			<Navigation cart={cart} />
-
 			<ProductContext.Provider
 				value={{
 					products,
 					addItem
-				}}
-			>
-				{/* // * Routes 
-				*/}
-				<Route exact path="/" component={Products} />
+				}}>
+				<CartContext.Provider value={{cart}}>
+					{/* // * Routes 
+					*/}
+					<Navigation />
+					<Route exact path="/" component={Products} />
+					<Route path="/cart" component={ShoppingCart} />
+				</CartContext.Provider>
 
-				<Route
-					path="/cart"
-					render={() => <ShoppingCart cart={cart} />}
-				/>
 			</ProductContext.Provider>
 		</div>
 	);
